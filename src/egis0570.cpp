@@ -1,4 +1,4 @@
-#include <libusb-1.0/libusb.h> // TODO proper linking
+// #include <libusb-1.0/libusb.h> // TODO proper linking
 #include <stdexcept>
 #include "egis0570.hpp"
 #include "packets.hpp"
