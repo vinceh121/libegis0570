@@ -11,6 +11,7 @@ int main(int argc, char **argv) {
 	std::ofstream out(argv[1], std::ios::binary);
 
 	egis::Egis egis;
+	//egis.timeout = 0;
 	egis.initUsb();
 	egis.setDefaultsForReading();
 

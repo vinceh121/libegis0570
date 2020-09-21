@@ -15,8 +15,9 @@
 namespace egis {
 
 	class Egis {
+	public:
+		unsigned int timeout = 5000;
 	protected:
-		int timeout = 5000;
 		libusb_device_handle *handle;
 		// libusb_context *ctx;
 	public:

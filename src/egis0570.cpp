@@ -16,7 +16,7 @@ namespace egis {
 			throw std::runtime_error("failed to init libusb");
 		}
 
-		this->handle = libusb_open_device_with_vid_pid(NULL, EGIS_VENDOR_ID,
+		handle = libusb_open_device_with_vid_pid(NULL, EGIS_VENDOR_ID,
 		EGIS_PRODUCT_ID);
 
 		if (libusb_kernel_driver_active(handle, EGIS_INTF)) {
@@ -33,7 +33,7 @@ namespace egis {
 			throw std::runtime_error("failed to claim interface");
 		}
 
-//		status = libusb_reset_device(handle);
+		status = libusb_reset_device(handle);
 		if (status != 0) {
 			throw std::runtime_error("failed to reset device");
 		}
@@ -41,15 +41,15 @@ namespace egis {
 
 	int Egis::sendPacket(unsigned char *buf, unsigned char *msg, int msgLength,
 			int returnLength) {
-		int transfered;
+//		int transfered;
 		int status = libusb_bulk_transfer(handle, EGIS_EPOUT, msg, msgLength,
-				&transfered, timeout);
+		NULL, timeout);
 		if (status != 0) {
 			return status;
 		}
 
 		status = libusb_bulk_transfer(handle, EGIS_EPIN, buf, returnLength,
-				&transfered, timeout);
+		NULL, timeout);
 		if (status != 0) {
 			return status;
 		}
@@ -59,10 +59,10 @@ namespace egis {
 
 	int Egis::sendMessage(unsigned char *buf, unsigned char cmd,
 			unsigned char arg1, unsigned char arg2, int returnLength) {
-		unsigned char *msg[7];
-		buildHeader(*msg);
-		buildPacket(*msg, cmd, arg1, arg2);
-		return sendPacket(buf, *msg, 7, returnLength);
+		unsigned char msg[7];
+		buildHeader(msg);
+		buildPacket(msg, cmd, arg1, arg2);
+		return sendPacket(buf, msg, 7, returnLength);
 	}
 
 	/*void Egis::sendSequence(unsigned char *data, unsigned char *seq,
