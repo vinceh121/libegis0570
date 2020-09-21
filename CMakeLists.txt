@@ -1,5 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 
+option(BUILD_UTILS "Build the utilities" ON)
+
 include(GNUInstallDirs)
 
 #  VERSION "0.0.1"
@@ -11,7 +13,9 @@ target_link_libraries(egis0570 usb-1.0)
 
 set_target_properties(egis0570 PROPERTIES PUBLIC_HEADER src/egis0570.hpp)
 
-add_subdirectory(utils)
+if(BUILD_UTILS)
+	add_subdirectory(utils)
+endif(BUILD_UTILS)
 
 install(TARGETS egis0570
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

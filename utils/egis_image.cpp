@@ -1,3 +1,4 @@
+#include <libpng/png.h>
 #include <iostream>
 #include <fstream>
 #include <egis0570.hpp>
@@ -12,16 +13,9 @@ int main(int argc, char **argv) {
 
 	egis::Egis egis;
 	egis.initUsb();
-	egis.setDefaultsForReading();
 
 	unsigned char *data[EGIS_IMGSIZE];
 	egis.requestFlyEstimation(*data);
-	out.write((char*) data, EGIS_IMGSIZE);
-	// out.flush();
-
-	out.close();
 
 	egis.terminate();
-
-	return 0;
 }

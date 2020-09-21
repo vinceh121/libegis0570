@@ -13,27 +13,34 @@
 #define EGIS_IMG_HEIGHT 285
 
 namespace egis {
-	enum PacketType {
-		INDEV29, VINCEH121
-	};
 
 	class Egis {
 	protected:
-		unsigned char *pktInit;
-		unsigned char *pktRepeat;
-		int pktInitLen;
-		int pktRepeatLen;
 		int timeout = 5000;
 		libusb_device_handle *handle;
-		libusb_context *ctx;
+		// libusb_context *ctx;
 	public:
 		Egis();
 		~Egis();
 		void initUsb();
-		void setPackets(PacketType type);
-		unsigned char* sendSequence(unsigned char *seq, int seqLength);
-		unsigned char* readFingerprint();
-		unsigned char* repeatFingerprint();
+		int sendPacket(unsigned char *buf, unsigned char *cmd, int length,
+				int returnLength);
+		int sendMessage(unsigned char *buf, unsigned char cmd,
+				unsigned char arg0, unsigned char arg1, int returnLength);
+//		void sendSequence(unsigned char *data, unsigned char *seq,
+//				int seqLength);
+		unsigned char readRegister(unsigned char reg);
+		unsigned char writeRegister(unsigned char reg, unsigned char val);
+		int requestFlyEstimation(unsigned char *data);
+		void setDefaultsForReading();
+
+		unsigned char setSmallGain(int gain);
+		unsigned char getSmallGain();
+		unsigned char setNormalGain(int gain);
+		unsigned char getNormalGain();
+		unsigned char setLargeGain(int gain);
+		unsigned char getLargeGain();
+
 		void terminate();
 	};
 }
